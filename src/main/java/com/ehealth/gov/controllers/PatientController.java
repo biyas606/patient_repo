@@ -269,7 +269,7 @@ public class PatientController {
 
         }
         else {
-            map.put("Status","Could'nt Delete");
+            map.put("Status","Deleting failed");
 
         }
 
