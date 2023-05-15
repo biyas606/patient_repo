@@ -29,7 +29,7 @@ public interface PatientRepository extends CrudRepository<PatientModel,Integer>
 
     @Transactional
     @Modifying
-    @Query(value = "update patients set patient_address = :patientAge,patient_name= :patientName,patient_phone= :patientPhone where id= :patientId",nativeQuery = true)
+    @Query(value = "update patients set patient_address = :patientAddress,patient_name= :patientName,patient_phone= :patientPhone where id= :patientId",nativeQuery = true)
     public int updatePatientDetails(@Param("patientId")int patientId,@Param("patientAddress")String patientAddress,@Param("patientName")String patientName,@Param("patientPhone")String patientPhone);
 }
 
