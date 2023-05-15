@@ -16,20 +16,20 @@ public interface PatientRepository extends CrudRepository<PatientModel,Integer>
     @Query(value = "select * from patients",nativeQuery = true)
     public List<PatientModel>getPatientList();
 
-    @Query(value = "select * from patients where patient_phone_number=?",nativeQuery = true)
+    @Query(value = "select * from patients where patient_phone=?",nativeQuery = true)
     public  List<PatientModel>searchPatientByPhone(String phone);
 
-    @Query(value = "select * from patients where patient_phone_number= :num and patient_name= :name",nativeQuery = true)
+    @Query(value = "select * from patients where patient_phone= :num and patient_name= :name",nativeQuery = true)
     public List<PatientModel>searchPatientByNameAndPhone(@Param("num")String number,@Param("name")String name);
 
     @Transactional
     @Modifying
-    @Query(value = "delete from patients where patient_id = :patientId",nativeQuery = true)
+    @Query(value = "delete from patients where id = :patientId",nativeQuery = true)
     public  int deleteAPatient(@Param("patientId")int patientId);
 
     @Transactional
     @Modifying
-    @Query(value = "update patients set patient_age = :patientAge,patient_name= :patientName,patient_phone_number= :patientPhone where patient_id= :patientId",nativeQuery = true)
-    public int updatePatientDetails(@Param("patientId")int patientId,@Param("patientAge")String patientAge,@Param("patientName")String patientName,@Param("patientPhone")String patientPhone);
+    @Query(value = "update patients set patient_address = :patientAge,patient_name= :patientName,patient_phone= :patientPhone where id= :patientId",nativeQuery = true)
+    public int updatePatientDetails(@Param("patientId")int patientId,@Param("patientAddress")String patientAddress,@Param("patientName")String patientName,@Param("patientPhone")String patientPhone);
 }
 
