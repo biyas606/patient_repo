@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class PatientController {
 
@@ -38,7 +39,7 @@ public class PatientController {
 
     @PostMapping(path="addPatient",consumes = "application/json" , produces = "application/json")
     @ResponseBody
-    public List<PatientModel> patientEntry(@RequestBody PatientModel patientModel)
+    public HashMap patientEntry(@RequestBody PatientModel patientModel)
     {
         System.out.println("Name"+ patientModel.getPatientName());
         System.out.println("Address"+ patientModel.getPatientAddress());
@@ -49,7 +50,11 @@ public class PatientController {
         */
         patientRepository.save(patientModel);
         patientLists.add(patientModel);
-        return patientLists;
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("status","success");
+        hashMap.put("data",patientModel);
+        // return patientLists;
+        return hashMap;
     }
 
 
@@ -178,7 +183,7 @@ public class PatientController {
 
     }
     //Select Query using ?
-    @PostMapping(path = "/searchPatientListByPhone",consumes = "application/json",produces = "application/json")
+    @PostMapping(path = "/searchPatient",consumes = "application/json",produces = "application/json")
     public List searchPatientListByPhone(@RequestBody PatientModel model)
     {
         List<PatientModel>patientlist = patientRepository.searchPatientByPhone(model.getPatientPhone());
@@ -202,7 +207,6 @@ public class PatientController {
         {
             map.put("Status","Found");
             map.put("Data",list);
-
         }
         return  map;
     }
@@ -215,18 +219,18 @@ public class PatientController {
     public HashMap searchPatients(@RequestBody PatientModel patientModel)
     {
         HashMap<String,Object> hashMap=new HashMap<>();
-        for (PatientModel patientModel1:patientLists)
+        List<PatientModel>patientlist = (List<PatientModel>) patientRepository.findAll();
+        for (PatientModel patientModel1:patientlist)
         {
             if(patientModel.getPatientPhone().equals(patientModel1.getPatientPhone()))
             {
-                hashMap.put("status","success");
+                hashMap.put("status","Found!!!");
                 hashMap.put("data",patientModel1);
                 break;
             }
             else
             {
-                hashMap.put("status","failed");
-                hashMap.put("data",null);
+                hashMap.put("status","Not Found!!!");
             }
 
         }
@@ -256,10 +260,10 @@ public class PatientController {
         return hashMap;
     }
 
-    @DeleteMapping(path = "/deletePatient",consumes = "application/json",produces = "application/json")
+    @PostMapping(path = "/deletePatient",consumes = "application/json",produces = "application/json")
     public  HashMap deletePatient(@RequestBody PatientModel model)
     {
-        int value = patientRepository.deleteAPatient(model.getId());
+        int value = patientRepository.deletePatient(model.getId());
         System.out.println(value);
         HashMap<String, String>map = new HashMap<>();
 

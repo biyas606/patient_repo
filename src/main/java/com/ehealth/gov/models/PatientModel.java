@@ -13,6 +13,7 @@ public class PatientModel
     @Id
     @GeneratedValue
     int id;
+    
     String patientName;
     String patientAddress;
     String patientPhone;

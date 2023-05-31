@@ -25,7 +25,7 @@ public interface PatientRepository extends CrudRepository<PatientModel,Integer>
     @Transactional
     @Modifying
     @Query(value = "delete from patients where id = :patientId",nativeQuery = true)
-    public  int deleteAPatient(@Param("patientId")int patientId);
+    public  int deletePatient(@Param("patientId")int patientId);
 
     @Transactional
     @Modifying
